@@ -3,75 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch & Unlock Content</title>
+    <title>Redirecting...</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0f172a;
+            background-color: #0b0f19;
             color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
             text-align: center;
+            padding: 20px;
+            margin: 0;
         }
         .container {
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            max-width: 90%;
-            width: 350px;
-        }
-        h2 {
-            margin-bottom: 15px;
-            color: #38bdf8;
-        }
-        p {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 25px;
+            margin-top: 30px;
         }
         .btn {
-            background-color: #2563eb;
+            background-color: #22c55e;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 28px;
             font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
-            width: 100%;
+            text-decoration: none;
+            display: inline-block;
             font-weight: bold;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background-color: #1d4ed8;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h2>Unlock Your Content</h2>
-        <p>Click the button below to complete the process and get your requested file instantly.</p>
-        <button class="btn" onclick="redirectToTarget()">Continue 🚀</button>
+        <h3>⏳ Please wait while the content loads...</h3>
+        
+        <!-- Onclicka Inpage / Banner Ad Script -->
+        <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="450452"></script>
+
+        <br><br>
+        <p>If you are not redirected automatically, click below:</p>
+        <a id="goBtn" href="#" class="btn">Proceed to Destination 🚀</a>
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
 
-        function redirectToTarget() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetUrl = urlParams.get('url');
+        // URL se target link nikalna jo bot ne bheja tha
+        const urlParams = new URLSearchParams(window.location.search);
+        let targetUrl = urlParams.get('url');
+
+        const btn = document.getElementById('goBtn');
+
+        if (targetUrl) {
+            btn.href = targetUrl;
             
-            if (targetUrl) {
-                window.location.href = decodeURIComponent(targetUrl);
-            } else {
-                alert("Invalid or missing redirect link!");
-            }
+            // Auto-redirect logic (Aap yahan timer bhi laga sakte hain taaki ad load hone ke baad redirect ho)
+            setTimeout(function() {
+                window.location.href = targetUrl;
+            }, 4000); // 4 seconds ke baad apne aap target website par bhej dega
+        } else {
+            btn.href = "https://google.com";
         }
     </script>
 </body>
