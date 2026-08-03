@@ -3,46 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>Loading Content...</title>
+    <!-- Telegram WebApp JS -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #0b0f19;
-            color: #ffffff;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            margin-top: 30px;
-        }
-        .btn {
-            background-color: #22c55e;
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
+    
+    <!-- Onclicka TMA Video Ad Script -->
+    <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
 </head>
 <body>
-
-    <div class="container">
-        <h3>⏳ Please wait while the ad loads...</h3>
+    <div style="text-align: center; margin-top: 40px; font-family: Arial, sans-serif; color: #fff; background-color: #0b0f19; padding: 20px;">
+        <h3 style="color: #38bdf8;">⏳ Loading Secure Content...</h3>
+        <p style="color: #94a3b8; font-size: 14px;">Please watch the ad to proceed.</p>
         
         <!-- Onclicka Inpage / Banner Ad Script -->
         <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="450452"></script>
-
-        <br><br>
-        <p>If you are not redirected automatically, click below:</p>
-        <a id="goBtn" href="#" class="btn">Proceed to Destination 🚀</a>
     </div>
 
     <script>
@@ -50,20 +24,33 @@
         window.Telegram.WebApp.expand();
 
         const urlParams = new URLSearchParams(window.location.search);
-        let targetUrl = urlParams.get('url');
+        let targetUrl = urlParams.get('url') || "https://google.com";
 
-        const btn = document.getElementById('goBtn');
-
-        if (targetUrl) {
-            btn.href = targetUrl;
-            
-            // 12 seconds ka timer taaki ad load hone aur dikhne ka samay mile
-            setTimeout(function() {
-                window.location.href = targetUrl;
-            }, 12000); 
-        } else {
-            btn.href = "https://google.com";
+        // Function to handle safe redirection
+        function redirectToDestination() {
+            window.location.href = targetUrl;
         }
+
+        // Initialize TMA Video Ad Engine with your Spot ID (6123645)
+        window.initCdTma?.({ id: '6123645' }).then(show => {
+            window.show = show;
+            
+            // Page khulte hi automatic video ad play hoga
+            if (typeof window.show === 'function') {
+                window.show().then(() => {
+                    console.log('TMA ad completed');
+                    redirectToDestination();
+                }).catch(e => {
+                    console.log('Ad skipped or error:', e);
+                    redirectToDestination(); // Agar ad me koi dikkat aaye toh bhi user ruke na, redirect ho jaye
+                });
+            } else {
+                setTimeout(redirectToDestination, 10000);
+            }
+        }).catch(e => {
+            console.log('TMA Init error:', e);
+            setTimeout(redirectToDestination, 10000);
+        });
     </script>
 </body>
 </html>
